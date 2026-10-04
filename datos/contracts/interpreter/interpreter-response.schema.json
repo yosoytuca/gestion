@@ -1,0 +1,375 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Interpreter response v1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "inputId",
+    "operations",
+    "clarifications"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.1"
+    },
+    "inputId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "operations": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/createGroup"
+          },
+          {
+            "$ref": "#/$defs/create"
+          },
+          {
+            "$ref": "#/$defs/update"
+          },
+          {
+            "$ref": "#/$defs/terminal"
+          }
+        ]
+      }
+    },
+    "clarifications": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/clarification"
+      }
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "time": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+    },
+    "category": {
+      "enum": [
+        "WORK",
+        "EDUCATION",
+        "HEALTH",
+        "PERSONAL"
+      ]
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "category",
+        "type",
+        "dueDate",
+        "dueTime",
+        "reservedDurationMinutes",
+        "groupRef"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "category": {
+          "$ref": "#/$defs/category"
+        },
+        "type": {
+          "enum": [
+            "TASK",
+            "COMMITMENT"
+          ]
+        },
+        "dueDate": {
+          "$ref": "#/$defs/date"
+        },
+        "dueTime": {
+          "$ref": "#/$defs/time"
+        },
+        "reservedDurationMinutes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "groupRef": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    },
+    "createGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opId",
+        "action",
+        "tempId",
+        "title",
+        "evidence"
+      ],
+      "properties": {
+        "opId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "const": "CREATE_GROUP"
+        },
+        "tempId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "create": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opId",
+        "action",
+        "fields",
+        "evidence"
+      ],
+      "properties": {
+        "opId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "const": "CREATE"
+        },
+        "fields": {
+          "$ref": "#/$defs/fields"
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "category": {
+          "$ref": "#/$defs/category"
+        },
+        "type": {
+          "enum": [
+            "TASK",
+            "COMMITMENT"
+          ]
+        },
+        "dueDate": {
+          "$ref": "#/$defs/date"
+        },
+        "dueTime": {
+          "$ref": "#/$defs/time"
+        },
+        "reservedDurationMinutes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "groupId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        }
+      }
+    },
+    "update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opId",
+        "action",
+        "targetId",
+        "expectedVersion",
+        "patch",
+        "evidence"
+      ],
+      "properties": {
+        "opId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "const": "UPDATE"
+        },
+        "targetId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "patch": {
+          "$ref": "#/$defs/patch"
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opId",
+        "action",
+        "targetId",
+        "expectedVersion",
+        "evidence"
+      ],
+      "properties": {
+        "opId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "enum": [
+            "COMPLETE",
+            "CANCEL",
+            "DELETE"
+          ]
+        },
+        "targetId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "clarification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "reason",
+        "question",
+        "expression",
+        "affectedOpIds",
+        "candidateIds",
+        "options",
+        "dateRange"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "enum": [
+            "AMBIGUOUS_TIME",
+            "AMBIGUOUS_TARGET",
+            "IMPRECISE_DATE",
+            "MISSING_TARGET",
+            "INVALID_DATE",
+            "CONFLICTING_INTENT",
+            "OTHER"
+          ]
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expression": {
+          "type": "string"
+        },
+        "affectedOpIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "candidateIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dateRange": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "start",
+                "end"
+              ],
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
