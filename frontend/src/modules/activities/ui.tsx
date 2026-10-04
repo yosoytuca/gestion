@@ -16,7 +16,7 @@ export function CategoryFilters({activities, selected, select}: {activities: Act
   </nav>;
 }
 export function ActivityList({snapshot, category, open, timer}: {snapshot: UiSnapshot; category: Category | null;
-  open(id: string): void; timer(activity: Activity, action: 'START' | 'PAUSE' | 'RESUME'): void}) {
+  open(id: string): void; timer(activity: Activity, action: 'START' | 'STOP_COMPLETE' | 'RESUME'): void}) {
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const filtered = filterCategory(snapshot.pending, category);
   if (!filtered.length) return <div class="empty"><span class="empty-mark">✓</span><h2>Un poco de espacio</h2><p>{category ? `No tienes pendientes de ${categoryLabels[category].toLowerCase()}.` : 'Tus pendientes aparecerán aquí.'}</p><p>Usa + para registrar lo que sigue.</p></div>;
@@ -40,15 +40,15 @@ export function ActivityList({snapshot, category, open, timer}: {snapshot: UiSna
           {!collapsed[groupKey] && block.activities.map(a => {
             const status = effectiveStatus(a, snapshot.sessions);
             const session = snapshot.sessions.find(s => s.activityId === a.id && s.deviceId === snapshot.deviceId && s.state !== 'STOPPED');
-            const action = session?.state === 'RUNNING' ? 'PAUSE' : session ? 'RESUME' : 'START';
-            const label = action === 'PAUSE' ? 'Pausar' : action === 'RESUME' ? 'Continuar' : 'Iniciar';
+            const action = session?.state === 'RUNNING' ? 'STOP_COMPLETE' : session ? 'RESUME' : 'START';
+            const label = action === 'STOP_COMPLETE' ? 'Completar' : action === 'RESUME' ? 'Continuar' : 'Iniciar';
             const date = relativeDate(a, snapshot.now, snapshot.timeZone);
             return <article key={a.id} class={`activity-card ${a.category.toLowerCase()} ${status === 'IN_PROGRESS' ? 'running' : ''}`}>
               <button class="card-main" onClick={() => open(a.id)} aria-label={`Abrir ${a.title}`}>
                 <span class="card-icon"><CategoryIcon category={a.category} size={23}/></span>
                 <span class="card-copy"><strong>{a.title}</strong><small><span>{categoryLabels[a.category]}</span><span class={date === 'Vencido' ? 'date overdue' : 'date'}>{date}</span>{a.dueTime && <span>{a.dueTime}</span>}{status === 'IN_PROGRESS' && <span class="running-label">En curso</span>}</small></span>
               </button>
-              {a.type === 'TASK' && <button class="card-play" aria-label={`${label} ${a.title}`} onClick={() => timer(a, action)}>{action === 'PAUSE' ? 'Ⅱ' : '▶'}</button>}
+              {a.type === 'TASK' && <button class="card-play" aria-label={`${label} ${a.title}`} onClick={() => timer(a, action)}>{action === 'STOP_COMPLETE' ? '✓' : '▶'}</button>}
             </article>;
           })}
         </div>;

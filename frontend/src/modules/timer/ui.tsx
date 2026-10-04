@@ -7,7 +7,7 @@ export function formatDuration(milliseconds: number) {
   return `${String(Math.floor(seconds / 3600)).padStart(2, '0')}:${String(Math.floor(seconds / 60) % 60).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
 }
 export function TimerPanel({activity, snapshot, action, stop, busy}: {activity: Activity; snapshot: UiSnapshot;
-  action(value: 'START' | 'PAUSE' | 'RESUME'): void; stop(): void; busy: boolean}) {
+  action(value: 'START' | 'PAUSE' | 'RESUME' | 'STOP_COMPLETE'): void; stop(): void; busy: boolean}) {
   const [, setTick] = useState(0);
   const [baseline, setBaseline] = useState(() => ({wall: Date.now(), instant: Date.parse(snapshot.now)}));
   useEffect(() => {setBaseline({wall: Date.now(), instant: Date.parse(snapshot.now)});}, [snapshot.now]);
@@ -19,8 +19,9 @@ export function TimerPanel({activity, snapshot, action, stop, busy}: {activity: 
   catch {time = 'Revisar reloj';}
   const running = session?.state === 'RUNNING';
   return <section class="timer-panel" aria-label="Registro de tiempo"><span>Tiempo activo</span><strong class="timer-digits">{time}</strong>
-    {activity.status === 'PENDING' && <div class="timer-actions"><button type="button" class={running ? 'secondary' : 'primary'} disabled={busy} onClick={() => action(running ? 'PAUSE' : session ? 'RESUME' : 'START')}>
-      <span aria-hidden="true">{running ? 'Ⅱ' : '▶'}</span> {running ? 'Pausar' : session ? 'Continuar' : 'Iniciar'}</button>
+    {activity.status === 'PENDING' && <div class="timer-actions"><button type="button" class="primary" disabled={busy} onClick={() => action(running ? 'STOP_COMPLETE' : session ? 'RESUME' : 'START')}>
+      <span aria-hidden="true">{running ? '✓' : '▶'}</span> {running ? 'Completar' : session ? 'Continuar' : 'Iniciar'}</button>
+      {running && <button type="button" disabled={busy} onClick={() => action('PAUSE')}>Ⅱ Pausar</button>}
       {session && <button type="button" disabled={busy} onClick={stop}>⏹ Detener</button>}</div>}
   </section>;
 }
