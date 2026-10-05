@@ -7,3 +7,4 @@
 .update-banner p {margin:0 0 12px;}
 .update-banner button {min-height:44px;margin-right:8px;}
 .settings-section input[type=file] {display:block;width:100%;max-width:100%;margin:12px 0;}
+.urgency-dot{display:inline-block;width:12px;height:12px;flex:0 0 12px;border-radius:50%;margin:0 12px 0 0;border:1px solid #87938b;box-sizing:border-box}.urgency-dot.undated{background:#aab2ad}.urgency-dot.distant{background:#fff}.urgency-dot.soon{background:#6b9f75;border-color:#547f5c}.urgency-dot.near{background:#e0b54d;border-color:#987b2f}.urgency-dot.urgent{background:#cf6156;border-color:#a7473e}.urgency-dot.overdue{background:#87372f;border-color:#682922}

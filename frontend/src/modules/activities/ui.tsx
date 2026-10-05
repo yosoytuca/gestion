@@ -4,6 +4,7 @@ import {categoryLabels, type UiSnapshot} from '../../shared/ui-contract';
 import {categoryCounts, filterCategory, relativeDate, sections} from './presentation';
 import {effectiveStatus} from '../../../../datos/domain/activities/public';
 import {useState} from 'preact/hooks';
+import {urgency} from './urgency';
 
 export function CategoryFilters({activities, selected, select}: {activities: Activity[]; selected: Category | null; select(value: Category | null): void}) {
   const counts = categoryCounts(activities);
@@ -43,11 +44,13 @@ export function ActivityList({snapshot, category, open, timer}: {snapshot: UiSna
             const action = session?.state === 'RUNNING' ? 'STOP_COMPLETE' : session ? 'RESUME' : 'START';
             const label = action === 'STOP_COMPLETE' ? 'Completar' : action === 'RESUME' ? 'Continuar' : 'Iniciar';
             const date = relativeDate(a, snapshot.now, snapshot.timeZone);
+            const proximity=urgency(a,snapshot.now,snapshot.timeZone);
             return <article key={a.id} class={`activity-card ${a.category.toLowerCase()} ${status === 'IN_PROGRESS' ? 'running' : ''}`}>
               <button class="card-main" onClick={() => open(a.id)} aria-label={`Abrir ${a.title}`}>
                 <span class="card-icon"><CategoryIcon category={a.category} size={23}/></span>
                 <span class="card-copy"><strong>{a.title}</strong><small><span>{categoryLabels[a.category]}</span><span class={date === 'Vencido' ? 'date overdue' : 'date'}>{date}</span>{a.dueTime && <span>{a.dueTime}</span>}{status === 'IN_PROGRESS' && <span class="running-label">En curso</span>}</small></span>
               </button>
+              <span class={`urgency-dot ${proximity.level}`} role="img" aria-label={`Cercanía: ${proximity.label}`} title={proximity.label}/>
               {a.type === 'TASK' && <button class="card-play" aria-label={`${label} ${a.title}`} onClick={() => timer(a, action)}>{action === 'STOP_COMPLETE' ? '✓' : '▶'}</button>}
             </article>;
           })}
