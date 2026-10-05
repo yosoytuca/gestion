@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "1.1", "inputId": "bd511b14-cba8-4ea9-bc82-6afcbcf7d4f0",
+  "operations": [{"opId": "quote-1", "action": "CREATE", "evidence": "Cotización de acrílicos para hoy",
+    "fields": {"title": "Cotización de acrílicos", "category": "WORK", "type": "TASK",
+      "dueDate": "2026-10-03", "dueTime": null, "reservedDurationMinutes": null, "groupRef": null}}],
+  "clarifications": []
+}

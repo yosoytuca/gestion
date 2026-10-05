@@ -77,7 +77,7 @@ export class UiController implements UiPort {
     }
     const capture = this.environment.capture(scenario,request);
     const response = voice ? await capture.audio({audio: new Blob([]), context: input}, input.candidates) : await capture.text(input);
-    const prepared=await new InterpreterWorkflow(this.kernel).prepare(response, input.candidates);
+    const prepared=await new InterpreterWorkflow(this.kernel).prepare(response, input.candidates,this.interpreterMode==='real');
     if (this.environment.debug) console.debug('[interpreter]',{input,request,response,validation:'OK'});
     return prepared;
   }
@@ -85,6 +85,21 @@ export class UiController implements UiPort {
   async beginVoice(context:CaptureContext) {if(!this.environment.recorder)throw new Error('Grabación no disponible.');await this.environment.recorder.start(context);}
   async finishVoice() {if(!this.environment.recorder)throw new Error('Grabación no disponible.');return this.environment.voice.transcribe(await this.environment.recorder.stop());}
   cancelVoice() {this.environment.recorder?.cancel();}
+  captureDraft(voice:boolean){return this.environment.contextStore?.draft?.(voice)??{text:''};}
+  saveCaptureDraft(voice:boolean,draft:{text:string;context?:CaptureContext}){this.environment.contextStore?.saveDraft?.(voice,draft);}
+  async manualCapture(text:string,_context:CaptureContext){
+    if(!text.trim())throw new Error('Escribe el nombre de la actividad.');
+    return new InterpreterWorkflow(this.kernel).prepare({schemaVersion:'1.1',inputId:this.kernel.runtime.id(),operations:[{opId:'manual1',action:'CREATE',evidence:text.slice(0,1000),fields:{title:text.trim().slice(0,300),category:'PERSONAL',type:'TASK',dueDate:null,dueTime:null,reservedDurationMinutes:null,groupRef:null}}],clarifications:[]});
+  }
+  async editProposal(batch:BatchRecord,opId:string,fields:Extract<import('../../../../datos/contracts/interpreter/public').InterpreterOperation,{action:'CREATE'}>['fields']){
+    const response=validateInterpreter(batch.response);
+    const op=response.operations.find(op=>op.opId===opId);
+    if(op?.action!=='CREATE' || batch.appliedOpIds.includes(opId))throw new Error('Esta propuesta ya no se puede editar.');
+    op.fields=structuredClone(fields);
+    response.clarifications=response.clarifications.map(c=>({...c,affectedOpIds:c.affectedOpIds.filter(id=>id!==opId)})).filter((c,index)=>!response.clarifications[index]!.affectedOpIds.includes(opId) || c.affectedOpIds.length>0);
+    const candidates=(await this.snapshot()).all.map(a=>({id:a.id,version:a.version}));
+    return new InterpreterWorkflow(this.kernel).prepare(response,candidates,this.interpreterMode==='real',batch.revision);
+  }
   async apply(batch: BatchRecord) {
     const before=new Set((await this.snapshot()).all.map(a=>a.id));
     const applied=await new InterpreterWorkflow(this.kernel).applyPrepared(batch.id, batch.revision);
@@ -92,6 +107,10 @@ export class UiController implements UiPort {
     const ids=validateInterpreter(batch.response).operations.filter(op=>batch.preparedOpIds.includes(op.opId)).flatMap(op=>'targetId' in op ? [op.targetId] : []);
     this.recentIds=[...new Set([...snapshot.all.filter(a=>!before.has(a.id)).map(a=>a.id),...ids])].slice(0,8);
     this.environment.contextStore?.setRecent(this.recentIds);
+    if(applied.state==='APPLIED')for(const voice of [true,false]){
+      const draft=this.environment.contextStore?.draft?.(voice);
+      if(draft?.context?.inputId===batch.id)this.environment.contextStore?.saveDraft?.(voice,{text:''});
+    }
     if(this.environment.debug) console.debug('[interpreter applied]',{batchId:applied.id,opIds:applied.appliedOpIds});
     return applied;
   }
@@ -114,7 +133,7 @@ export class UiController implements UiPort {
     }
     response.clarifications = response.clarifications.filter(c => c.id !== clarificationId);
     const candidates = (await this.snapshot()).all.map(a => ({id: a.id, version: a.version}));
-    return new InterpreterWorkflow(this.kernel).prepare(response, candidates);
+    return new InterpreterWorkflow(this.kernel).prepare(response, candidates,this.interpreterMode==='real',batch.revision);
   }
   useDemo(reset = false) {return this.environment.switchMode('demo', reset);}
   usePersonal() {return this.environment.switchMode('personal', false);}

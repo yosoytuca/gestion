@@ -1,0 +1,9 @@
+
+> gestor-actividades@0.1.0 build:production
+> npm run typecheck && node scripts/build.mjs --production
+
+
+> gestor-actividades@0.1.0 typecheck
+> tsc --noEmit
+
+Build móvil/PWA: dist/ (2365729e0f1f).

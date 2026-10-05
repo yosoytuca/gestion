@@ -1,0 +1,79 @@
+
+> gestor-actividades@0.1.0 check
+> npm run typecheck && npm run lint && npm test && npm run build
+
+
+> gestor-actividades@0.1.0 typecheck
+> tsc --noEmit
+
+
+> gestor-actividades@0.1.0 lint
+> node scripts/check-boundaries.mjs
+
+Límites e imports sin ciclos: 25 archivos TypeScript.
+
+> gestor-actividades@0.1.0 test
+> node scripts/test.mjs
+
+✔ Reglas aprobadas: lunes futuro, lunes de próxima semana y hoy explícito (52.4015ms)
+✔ Día 10 estrictamente futuro; meses cortos y cambio de año (2.0259ms)
+✔ Próxima semana conserva rango; dentro de una hora cruza medianoche local (1.7969ms)
+✔ Rechazar días, desplazamientos y capturas inválidos (2.4336ms)
+✔ Historial por día local y validación del periodo (65.7338ms)
+✔ Preparar rechaza semántica inválida incluso si JSON schema la admite (9.2756ms)
+✔ Repreparar COMPLETE aplicado no necesita candidato vigente ni duplica auditoría (6.7617ms)
+✔ Sesión remota conocida impide iniciar otra sin borrar información (11.234ms)
+✔ Push batch de grupo/hijo atómico; creación ilegítima sobre tombstone rechazada (7.3481ms)
+✔ JSON schema runtime: v1.1 válida; rechazar versión, enum, campos extra y fecha imposible (19.069ms)
+✔ Preparar no ejecuta; aplicar clara crea actividad, auditoría y outbox; reintento no duplica (53.5042ms)
+✔ Lote mixto: clara aplicable, ambigua bloqueada, resolución posterior sin duplicados (13.1549ms)
+✔ Modificación ambigua no ejecuta: candidatos múltiples y borrador compartido (8.2285ms)
+✔ CREATE_GROUP y múltiples CREATE conservan relación y fechas individuales (6.9841ms)
+✔ UPDATE solo modifica patch; COMPLETE, CANCEL y DELETE por servicios de dominio (16.4924ms)
+✔ Versiones se revalidan al aplicar; fallo revierte también creaciones del lote (6.9036ms)
+✔ Rechazar objetivos no candidatos y modificaciones de operación ya aplicada (6.4362ms)
+✔ Aclaración sin operación mantiene lote parcial; referencia inválida rechazada (4.1395ms)
+✔ Voice mock → mismo intérprete que texto; contexto capturado no se cambia (2.22ms)
+✔ CREATE → UPDATE → reprogramar → COMPLETE → historial + auditoría/outbox; conservar fecha calendario (89.9701ms)
+✔ Cancelar conserva historial; DELETE conserva tombstone y no aparece en historial (9.7367ms)
+✔ Validaciones de campos, fechas, categoría, tipo y versión antes de persistir (8.6307ms)
+✔ Atomicidad IndexedDB: error después de escribir revierte entidades y outbox (4.32ms)
+✔ Orden puro: vencidas, hoy con hora, hoy sin hora, próximas, futuras, sin fecha (19.6837ms)
+✔ Desempate createdAt y edición temporal inmediata (8.437ms)
+✔ Fechas reales, año bisiesto y zona sin conversión de fecha calendario (1.0116ms)
+✔ Grupos con fechas distintas y progreso sin contar canceladas como completadas (17.9913ms)
+✔ Timer 40 + 35 minutos, pausa no cuenta, STOP no COMPLETE (12.1731ms)
+✔ Iniciar otra pausa anterior desde dominio; IN_PROGRESS es estado efectivo (9.6665ms)
+✔ Completar cierra sesión e intervalos; no iniciar compromisos o terminales (8.2622ms)
+✔ Reapertura conserva entidades, outbox y contador basado en timestamps (8.0619ms)
+✔ Dos conexiones/pestañas serializan START y conservan una sola sesión local activa (10.9868ms)
+✔ Reloj retrocede: PAUSE aborta sin perder intervalo ni outbox (5.3993ms)
+✔ Cambio de tipo con sesión abierta se rechaza; borrar cierra sesión (6.8882ms)
+✔ Conflictos de intervalos inter-dispositivo: detectar, no sumar total definitivo (0.682ms)
+✔ Fallo al escribir outbox revierte modificación y auditoría (55.86ms)
+✔ Actualizar IndexedDB v1 a v2 conserva registros existentes (5.2854ms)
+✔ Sync mock rechaza lote completo si una operación tiene base incompatible (8.1203ms)
+✔ Capture rechaza inputId y contexto incoherente de proveedores (7.3875ms)
+✔ Push/Pull mock: replicar creación, edición y tombstone; ack outbox (107.8689ms)
+✔ Idempotencia tras perder respuesta: reintentar sin duplicar feed (8.504ms)
+✔ Dos ediciones offline: conflicto, mantener datos locales y outbox (20.6048ms)
+✔ Sesiones de dispositivos offline: preservar intervalos, marcar conflicto y total null (24.6804ms)
+✔ Error de red no reconoce outbox; respuesta de pull inválida no avanza cursor (9.6983ms)
+✔ Usuarios aislados: feed y repositorios locales no exponen pendientes ajenos (5.5688ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 737.9618
+
+> gestor-actividades@0.1.0 build
+> npm run typecheck && node scripts/build.mjs
+
+
+> gestor-actividades@0.1.0 typecheck
+> tsc --noEmit
+
+Build del núcleo y demostrador local: dist/

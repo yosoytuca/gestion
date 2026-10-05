@@ -2,6 +2,13 @@ import type {InterpreterRequest} from '../../../../datos/contracts/interpreter/t
 /** Small, per-workspace local capture journal; no network or database access. */
 export class CaptureContextStore {
   constructor(private readonly storage:Storage,private readonly namespace:string) {}
+  draft(voice:boolean):{text:string;context?:import('../../../../datos/contracts/interpreter/public').CaptureContext}{
+    try{const value=JSON.parse(this.storage.getItem(`${this.namespace}:draft:${voice?'voice':'write'}`)??'null');if(typeof value?.text==='string' && value.text.length<=20000)return value;}catch{}
+    return {text:''};
+  }
+  saveDraft(voice:boolean,value:{text:string;context?:import('../../../../datos/contracts/interpreter/public').CaptureContext}){
+    try{this.storage.setItem(`${this.namespace}:draft:${voice?'voice':'write'}`,JSON.stringify(value));}catch{}
+  }
   private read():{requests:Record<string,InterpreterRequest>;recent:string[]} {
     try {
       const value=JSON.parse(this.storage.getItem(this.namespace) ?? 'null');

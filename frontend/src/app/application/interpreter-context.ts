@@ -21,4 +21,4 @@ export function retrieveCandidates(activities:Activity[],input:InterpreterInput,
   }).filter(x=>x.relevant).sort((a,b)=>b.score-a.score || b.a.updatedAt.localeCompare(a.a.updatedAt)).slice(0,8);
   return ranked.map(({a})=>({id:a.id,version:a.version,title:a.title,category:a.category,type:a.type,dueDate:a.dueDate,dueTime:a.dueTime,status:a.status,reservedDurationMinutes:a.reservedDurationMinutes,groupId:a.groupId}));
 }
-export interface CaptureContextStore {get(id:string):InterpreterRequest|null;put(id:string,value:InterpreterRequest):void;recent():string[];setRecent(ids:string[]):void}
+export interface CaptureContextStore {get(id:string):InterpreterRequest|null;put(id:string,value:InterpreterRequest):void;recent():string[];setRecent(ids:string[]):void;draft?(voice:boolean):{text:string;context?:import('../../../../datos/contracts/interpreter/public').CaptureContext};saveDraft?(voice:boolean,value:{text:string;context?:import('../../../../datos/contracts/interpreter/public').CaptureContext}):void}

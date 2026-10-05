@@ -1,0 +1,90 @@
+
+> gestor-actividades@0.1.0 check
+> npm run typecheck && npm run lint && npm test && npm run build
+
+
+> gestor-actividades@0.1.0 typecheck
+> tsc --noEmit
+
+
+> gestor-actividades@0.1.0 lint
+> node scripts/check-boundaries.mjs
+
+Límites e imports sin ciclos: 43 archivos TypeScript.
+
+> gestor-actividades@0.1.0 test
+> node scripts/test.mjs
+
+✔ Reglas aprobadas: lunes futuro, lunes de próxima semana y hoy explícito (83.8648ms)
+✔ Día 10 estrictamente futuro; meses cortos y cambio de año (4.5731ms)
+✔ Próxima semana conserva rango; dentro de una hora cruza medianoche local (3.1968ms)
+✔ Rechazar días, desplazamientos y capturas inválidos (4.3039ms)
+✔ Historial por día local y validación del periodo (330.2558ms)
+✔ Preparar rechaza semántica inválida incluso si JSON schema la admite (29.939ms)
+✔ Repreparar COMPLETE aplicado no necesita candidato vigente ni duplica auditoría (24.6323ms)
+✔ Sesión remota conocida impide iniciar otra sin borrar información (70.4001ms)
+✔ Push batch de grupo/hijo atómico; creación ilegítima sobre tombstone rechazada (16.7929ms)
+✔ JSON schema runtime: v1.1 válida; rechazar versión, enum, campos extra y fecha imposible (33.3524ms)
+✔ Preparar no ejecuta; aplicar clara crea actividad, auditoría y outbox; reintento no duplica (165.8709ms)
+✔ Lote mixto: clara aplicable, ambigua bloqueada, resolución posterior sin duplicados (176.8033ms)
+✔ Modificación ambigua no ejecuta: candidatos múltiples y borrador compartido (21.3715ms)
+✔ CREATE_GROUP y múltiples CREATE conservan relación y fechas individuales (30.4374ms)
+✔ UPDATE solo modifica patch; COMPLETE, CANCEL y DELETE por servicios de dominio (48.5561ms)
+✔ Versiones se revalidan al aplicar; fallo revierte también creaciones del lote (12.411ms)
+✔ Rechazar objetivos no candidatos y modificaciones de operación ya aplicada (11.2229ms)
+✔ Aclaración sin operación mantiene lote parcial; referencia inválida rechazada (6.0088ms)
+✔ Voice mock → mismo intérprete que texto; contexto capturado no se cambia (5.3534ms)
+✔ CREATE → UPDATE → reprogramar → COMPLETE → historial + auditoría/outbox; conservar fecha calendario (179.4578ms)
+✔ Cancelar conserva historial; DELETE conserva tombstone y no aparece en historial (18.0338ms)
+✔ Validaciones de campos, fechas, categoría, tipo y versión antes de persistir (26.7548ms)
+✔ Atomicidad IndexedDB: error después de escribir revierte entidades y outbox (6.7986ms)
+✔ Orden puro: vencidas, hoy con hora, hoy sin hora, próximas, futuras, sin fecha (26.6619ms)
+✔ Desempate createdAt y edición temporal inmediata (37.7411ms)
+✔ Fechas reales, año bisiesto y zona sin conversión de fecha calendario (3.4212ms)
+✔ Grupos con fechas distintas y progreso sin contar canceladas como completadas (32.5914ms)
+✔ Timer 40 + 35 minutos, pausa no cuenta, STOP no COMPLETE (25.6941ms)
+✔ Iniciar otra pausa anterior desde dominio; IN_PROGRESS es estado efectivo (18.5683ms)
+✔ Completar cierra sesión e intervalos; no iniciar compromisos o terminales (33.6865ms)
+✔ Reapertura conserva entidades, outbox y contador basado en timestamps (10.203ms)
+✔ Dos conexiones/pestañas serializan START y conservan una sola sesión local activa (23.9232ms)
+✔ Reloj retrocede: PAUSE aborta sin perder intervalo ni outbox (16.4245ms)
+✔ Cambio de tipo con sesión abierta se rechaza; borrar cierra sesión (19.6548ms)
+✔ Conflictos de intervalos inter-dispositivo: detectar, no sumar total definitivo (2.5584ms)
+✔ UI manual → servicio → IndexedDB/outbox; filtros y contadores actualizados (1000.9521ms)
+✔ UI edición y completar: conservar servicio/versiones e historial buscable (1411.6756ms)
+✔ Calendario con confirmar/cancelar, hora 24h y validar hora sin fecha (824.6921ms)
+✔ Navegación root → categoría → actividad → hoja; Back deshace cada nivel y refresh conserva ruta (639.738ms)
+✔ Timer UI usa núcleo: pausar anterior, detener separado de completar (1048.4743ms)
+✔ UI grupo expandible conserva progreso y orden; demo no se carga en personal (346.9533ms)
+✔ Captura escrita mock → claras guardadas, hora por aclarar y resolución sin duplicados (526.496ms)
+✔ Voz simulada muestra texto, sin pedir permisos de micrófono (285.1741ms)
+✔ Proyecciones mantienen contadores/orden y periodo de historial local (7.6394ms)
+✔ Cancelar y eliminar usan acciones distintas; logout permanece deshabilitado (1214.5642ms)
+✔ Grupo con hijos en distintas fechas aparece en cada bloque sin alterar orden (250.9147ms)
+✔ Fallo al escribir outbox revierte modificación y auditoría (159.225ms)
+✔ Actualizar IndexedDB v1 a v2 conserva registros existentes (11.4029ms)
+✔ Sync mock rechaza lote completo si una operación tiene base incompatible (10.899ms)
+✔ Capture rechaza inputId y contexto incoherente de proveedores (10.6406ms)
+✔ Push/Pull mock: replicar creación, edición y tombstone; ack outbox (231.9767ms)
+✔ Idempotencia tras perder respuesta: reintentar sin duplicar feed (26.0632ms)
+✔ Dos ediciones offline: conflicto, mantener datos locales y outbox (50.0185ms)
+✔ Sesiones de dispositivos offline: preservar intervalos, marcar conflicto y total null (89.8824ms)
+✔ Error de red no reconoce outbox; respuesta de pull inválida no avanza cursor (10.7638ms)
+✔ Usuarios aislados: feed y repositorios locales no exponen pendientes ajenos (9.6975ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11630.3797
+
+> gestor-actividades@0.1.0 build
+> npm run typecheck && node scripts/build.mjs
+
+
+> gestor-actividades@0.1.0 typecheck
+> tsc --noEmit
+
+Build móvil/PWA: dist/ (3f3152457b2b).

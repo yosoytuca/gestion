@@ -9,10 +9,11 @@ import {LocalKernel, commandContext, finishWorkflow} from './local-kernel';
 
 export class InterpreterWorkflow {
   constructor(private readonly kernel: LocalKernel) {}
-  async prepare(value: unknown, candidates: Candidate[] = []): Promise<BatchRecord> {
+  async prepare(value: unknown, candidates: Candidate[] = [], reviewIncomplete=false, expectedRevision?:number): Promise<BatchRecord> {
     const response = validateInterpreter(value);
     return this.kernel.uow.write(async r => {
       const previous = await r.batches.get(response.inputId);
+      if(expectedRevision!==undefined)assert(previous?.revision===expectedRevision,'STALE_BATCH','El borrador cambió. Vuelve a abrirlo.');
       assert(!previous || previous.userId === this.kernel.runtime.userId, 'UNAUTHORIZED_TARGET', 'Lote de otro usuario.');
       const oldResponse = previous ? validateInterpreter(previous.response) : null;
       for (const id of previous?.appliedOpIds ?? []) {
@@ -30,7 +31,8 @@ export class InterpreterWorkflow {
           timeZone: this.kernel.runtime.timeZone, status: 'PENDING', version: 1,
           createdAt: this.kernel.runtime.now(), updatedAt: this.kernel.runtime.now(), completedAt: null, cancelledAt: null, deletedAt: null});
       }
-      const blocked = new Set(response.clarifications.flatMap(c => c.affectedOpIds));
+      const blockers=response.clarifications.filter(c=>!(reviewIncomplete && ['AMBIGUOUS_TIME','IMPRECISE_DATE'].includes(c.reason) && c.affectedOpIds.length && c.affectedOpIds.every(id=>response.operations.some(op=>op.opId===id && op.action==='CREATE'))));
+      const blocked = new Set(blockers.flatMap(c => c.affectedOpIds));
       // Unbound clarification has no executable operation; keep it as an unresolved item.
       for (const op of response.operations) if (op.action === 'CREATE' && op.fields.groupRef) {
         const group = response.operations.find(g => g.action === 'CREATE_GROUP' && g.tempId === op.fields.groupRef)!;
@@ -39,7 +41,7 @@ export class InterpreterWorkflow {
       const applied = previous?.appliedOpIds ?? [];
       assert(applied.every(id => !blocked.has(id)), 'APPLIED_OPERATION_CHANGED', 'Una operación aplicada no puede volverse ambigua.');
       const prepared = response.operations.filter(op => !blocked.has(op.opId) && !applied.includes(op.opId)).map(op => op.opId);
-      const pending = [...blocked, ...response.clarifications.filter(c => !c.affectedOpIds.length).map(c => `clarification:${c.id}`)];
+      const pending = [...blocked, ...blockers.filter(c => !c.affectedOpIds.length).map(c => `clarification:${c.id}`)];
       const record: BatchRecord = {id: response.inputId, userId: this.kernel.runtime.userId,
         revision: (previous?.revision ?? 0) + 1, response, appliedOpIds: applied, preparedOpIds: prepared,
         blockedOpIds: pending, groupMap: previous?.groupMap ?? {},

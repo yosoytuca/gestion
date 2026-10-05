@@ -1,0 +1,69 @@
+Etapa 4 — archivos nuevos y modificados
+
+frontend/
+  src/app/
+    app.tsx                         nuevo: composición móvil
+    main.tsx                        nuevo: arranque y espacios demo/personal
+    router.ts                       nuevo: History API
+    styles.css                      nuevo: diseño móvil
+    application/
+      ui-controller.ts              nuevo: puente a servicios locales
+      demo-data.ts                  nuevo: seed aislado
+  src/components/
+    category-icon.tsx                nuevo: SVG propios
+    sheet.tsx                       nuevo: panel accesible
+    date-time-picker.tsx            nuevo: calendario y hora
+  src/shared/ui-contract.ts         nuevo: puerto de presentación
+  src/modules/
+    activities/
+      public.ts                     modificado: exports visuales
+      presentation.ts               nuevo: proyecciones de UI
+      ui.tsx                        nuevo: filtros/lista/grupos
+      editor.tsx                    nuevo: formulario/detalle
+    capture/
+      public.ts                     modificado: exports visuales
+      ui.tsx                        nuevo: captura y resultados
+    history/
+      public.ts                     modificado: export de contrato/UI
+      period.ts                     nuevo: filtros de periodo
+      ui.tsx                        nuevo: historial
+    timer/
+      public.ts                     modificado: exports visuales
+      ui.tsx                        nuevo: controles y tiempo
+    settings/public.tsx             nuevo: configuración local
+  src/infrastructure/providers/
+    mock-capture.ts                 nuevo: adaptadores de escenarios
+  public/
+    index.html                      modificado: shell móvil
+    manifest.webmanifest            modificado: manifest instalable
+    sw.js                           modificado: cache versionada/fallback
+    icon-192.png                    nuevo: icono propio
+    icon-512.png                    nuevo: icono propio
+
+datos/contracts/entities.ts         modificado: HistoryFilter compartido
+scripts/
+  build.mjs                         modificado: entrada TSX/CSS/icons/hash
+  dev.mjs                           modificado: rutas SPA y tipos MIME
+  check-boundaries.mjs              modificado: TSX/exports/límites
+  test.mjs                          modificado: incluir tests TSX
+  generate-icons.mjs                nuevo: PNG propios sin dependencias
+
+tests/mobile-ui.test.tsx             nuevo: 11 pruebas de UI/integración
+package.json / package-lock.json    modificados: Preact y utilidades de tests
+tsconfig.json                       modificado: JSX Preact
+README.md                           modificado: ejecución y estado actual
+docs/
+  interfaz-movil.md                  nuevo: decisión/informe actual
+  archivos-interfaz.txt              nuevo: este inventario
+  arbol-real.txt                    actualizado: árbol completo
+  arquitectura.md                   actualizado: tecnología/entrega
+  resultados-verificacion.md        actualizado: referencia a etapa 4
+  mobile-check-output.txt            nuevo: check completo
+  mobile-tests-output.txt            nuevo: ejecución intermedia
+  mobile-home-390.png                nuevo: captura real
+  mobile-detail-390.png              nuevo: captura real
+  mobile-calendar-390.png            nuevo: captura real
+  mobile-history-390.png             nuevo: captura real
+
+No se reescribieron datos/domain ni los servicios/repositorios del núcleo.
+Dist, node_modules y .test-build son artefactos generados y no forman parte del árbol de fuentes.

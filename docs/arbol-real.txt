@@ -1,0 +1,210 @@
+gestor_actividades/
+├── backend/
+│   └── src/
+│       ├── app/
+│       │   └── .gitkeep
+│       ├── config/
+│       │   └── .gitkeep
+│       ├── infrastructure/
+│       │   ├── database/
+│       │   │   └── .gitkeep
+│       │   └── providers/
+│       │       └── .gitkeep
+│       ├── middleware/
+│       │   └── .gitkeep
+│       ├── modules/
+│       │   ├── activities/
+│       │   │   └── .gitkeep
+│       │   ├── auth/
+│       │   │   └── .gitkeep
+│       │   ├── groups/
+│       │   │   └── .gitkeep
+│       │   ├── history/
+│       │   │   └── .gitkeep
+│       │   ├── interpreter/
+│       │   │   └── public.ts
+│       │   ├── sessions/
+│       │   │   └── public.ts
+│       │   ├── statistics/
+│       │   │   └── .gitkeep
+│       │   ├── sync/
+│       │   │   └── public.ts
+│       │   └── voice/
+│       │       └── public.ts
+│       └── shared/
+│           └── .gitkeep
+├── datos/
+│   ├── contracts/
+│   │   ├── api/
+│   │   │   └── .gitkeep
+│   │   ├── interpreter/
+│   │   │   ├── interpreter-response.schema.json
+│   │   │   ├── public.ts
+│   │   │   └── validation.ts
+│   │   ├── repositories/
+│   │   │   └── public.ts
+│   │   ├── sync/
+│   │   │   ├── public.ts
+│   │   │   └── validation.ts
+│   │   ├── voice/
+│   │   │   └── public.ts
+│   │   └── entities.ts
+│   ├── database/
+│   │   ├── migrations/
+│   │   │   └── .gitkeep
+│   │   ├── schema/
+│   │   │   └── .gitkeep
+│   │   └── seeds/
+│   │       └── .gitkeep
+│   ├── domain/
+│   │   ├── activities/
+│   │   │   ├── calendar.ts
+│   │   │   └── public.ts
+│   │   └── sessions/
+│   │       └── public.ts
+│   └── local/
+│       ├── migrations/
+│       │   ├── .gitkeep
+│       │   └── README.md
+│       └── schema/
+│           └── public.ts
+├── docs/
+│   ├── arbol-real.txt
+│   ├── archivos-interfaz.txt
+│   ├── arquitectura.md
+│   ├── arranque-check.txt
+│   ├── arranque-ejecutables.md
+│   ├── buenas-practicas.md
+│   ├── casos-aceptacion.md
+│   ├── check-output.txt
+│   ├── contrato-interprete.md
+│   ├── evidencia-local.png
+│   ├── implementacion-local.md
+│   ├── instalacion-output.txt
+│   ├── interfaz-movil.md
+│   ├── mobile-calendar-390.png
+│   ├── mobile-check-output.txt
+│   ├── mobile-detail-390.png
+│   ├── mobile-history-390.png
+│   ├── mobile-home-390.png
+│   ├── mobile-tests-output.txt
+│   ├── modelo-datos.md
+│   ├── operacion-web.md
+│   ├── practicas-aplicadas.md
+│   ├── practicas-baseline.txt
+│   ├── practicas-check.txt
+│   ├── practicas-production.txt
+│   ├── practicas-settings-390.png
+│   ├── practicas-tests.txt
+│   ├── practicas-update-390.png
+│   └── resultados-verificacion.md
+├── frontend/
+│   ├── public/
+│   │   ├── icon-192.png
+│   │   ├── icon-512.png
+│   │   ├── icon.svg
+│   │   ├── index.html
+│   │   ├── manifest.webmanifest
+│   │   └── sw.js
+│   └── src/
+│       ├── app/
+│       │   ├── application/
+│       │   │   ├── backup.ts
+│       │   │   ├── demo-data.ts
+│       │   │   ├── interpreter-workflow.ts
+│       │   │   ├── local-kernel.ts
+│       │   │   └── ui-controller.ts
+│       │   ├── initialization/
+│       │   │   ├── configuration.ts
+│       │   │   ├── prepare.ts
+│       │   │   ├── services.ts
+│       │   │   ├── start.tsx
+│       │   │   ├── storage.ts
+│       │   │   └── updates.ts
+│       │   ├── app.tsx
+│       │   ├── demo.ts
+│       │   ├── main.tsx
+│       │   ├── router.ts
+│       │   └── styles.css
+│       ├── components/
+│       │   ├── .gitkeep
+│       │   ├── category-icon.tsx
+│       │   ├── date-time-picker.tsx
+│       │   └── sheet.tsx
+│       ├── infrastructure/
+│       │   ├── http/
+│       │   │   └── .gitkeep
+│       │   ├── providers/
+│       │   │   └── mock-capture.ts
+│       │   ├── pwa/
+│       │   │   └── .gitkeep
+│       │   └── storage/
+│       │       └── indexeddb.ts
+│       ├── modules/
+│       │   ├── activities/
+│       │   │   ├── editor.tsx
+│       │   │   ├── presentation.ts
+│       │   │   ├── public.ts
+│       │   │   └── ui.tsx
+│       │   ├── activity-groups/
+│       │   │   └── public.ts
+│       │   ├── auth/
+│       │   │   └── .gitkeep
+│       │   ├── capture/
+│       │   │   ├── public.ts
+│       │   │   └── ui.tsx
+│       │   ├── history/
+│       │   │   ├── period.ts
+│       │   │   ├── public.ts
+│       │   │   └── ui.tsx
+│       │   ├── settings/
+│       │   │   ├── .gitkeep
+│       │   │   └── public.tsx
+│       │   ├── statistics/
+│       │   │   └── .gitkeep
+│       │   ├── sync/
+│       │   │   └── public.ts
+│       │   └── timer/
+│       │       ├── public.ts
+│       │       └── ui.tsx
+│       └── shared/
+│           ├── .gitkeep
+│           └── ui-contract.ts
+├── inicializacion/
+│   ├── 01-instalar-dependencias.cmd
+│   ├── 01-instalar-dependencias.mjs
+│   ├── 03-arrancar.cmd
+│   ├── 03-arrancar.mjs
+│   ├── comandos.mjs
+│   └── LEEME.md
+├── scripts/
+│   ├── build.mjs
+│   ├── check-boundaries.mjs
+│   ├── dev.mjs
+│   ├── generate-icons.mjs
+│   ├── test.mjs
+│   ├── tree.mjs
+│   └── web-server.mjs
+├── tests/
+│   ├── fixtures/
+│   │   ├── interpreter-clear.json
+│   │   └── interpreter-mixed.json
+│   ├── calendar.test.ts
+│   ├── edge-cases.test.ts
+│   ├── helpers.ts
+│   ├── interpreter.test.ts
+│   ├── local-core.test.ts
+│   ├── mobile-ui.test.tsx
+│   ├── practicas.test.ts
+│   ├── pwa-update.test.ts
+│   ├── reliability.test.ts
+│   └── sync.test.ts
+├── .editorconfig
+├── .env.example
+├── .gitignore
+├── .node-version
+├── .nvmrc
+├── package-lock.json
+├── package.json
+├── README.md
+└── tsconfig.json

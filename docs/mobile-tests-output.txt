@@ -1,0 +1,66 @@
+
+> gestor-actividades@0.1.0 test
+> node scripts/test.mjs
+
+✔ Reglas aprobadas: lunes futuro, lunes de próxima semana y hoy explícito (63.2267ms)
+✔ Día 10 estrictamente futuro; meses cortos y cambio de año (2.0656ms)
+✔ Próxima semana conserva rango; dentro de una hora cruza medianoche local (2.2584ms)
+✔ Rechazar días, desplazamientos y capturas inválidos (3.1663ms)
+✔ Historial por día local y validación del periodo (85.479ms)
+✔ Preparar rechaza semántica inválida incluso si JSON schema la admite (14.5891ms)
+✔ Repreparar COMPLETE aplicado no necesita candidato vigente ni duplica auditoría (13.4539ms)
+✔ Sesión remota conocida impide iniciar otra sin borrar información (16.8957ms)
+✔ Push batch de grupo/hijo atómico; creación ilegítima sobre tombstone rechazada (10.5854ms)
+✔ JSON schema runtime: v1.1 válida; rechazar versión, enum, campos extra y fecha imposible (17.5021ms)
+✔ Preparar no ejecuta; aplicar clara crea actividad, auditoría y outbox; reintento no duplica (82.0998ms)
+✔ Lote mixto: clara aplicable, ambigua bloqueada, resolución posterior sin duplicados (18.813ms)
+✔ Modificación ambigua no ejecuta: candidatos múltiples y borrador compartido (9.1256ms)
+✔ CREATE_GROUP y múltiples CREATE conservan relación y fechas individuales (6.2298ms)
+✔ UPDATE solo modifica patch; COMPLETE, CANCEL y DELETE por servicios de dominio (26.9865ms)
+✔ Versiones se revalidan al aplicar; fallo revierte también creaciones del lote (8.1086ms)
+✔ Rechazar objetivos no candidatos y modificaciones de operación ya aplicada (5.3401ms)
+✔ Aclaración sin operación mantiene lote parcial; referencia inválida rechazada (4.2994ms)
+✔ Voice mock → mismo intérprete que texto; contexto capturado no se cambia (3.1226ms)
+✔ CREATE → UPDATE → reprogramar → COMPLETE → historial + auditoría/outbox; conservar fecha calendario (147.0134ms)
+✔ Cancelar conserva historial; DELETE conserva tombstone y no aparece en historial (17.974ms)
+✔ Validaciones de campos, fechas, categoría, tipo y versión antes de persistir (10.5761ms)
+✔ Atomicidad IndexedDB: error después de escribir revierte entidades y outbox (5.823ms)
+✔ Orden puro: vencidas, hoy con hora, hoy sin hora, próximas, futuras, sin fecha (27.0709ms)
+✔ Desempate createdAt y edición temporal inmediata (10.8395ms)
+✔ Fechas reales, año bisiesto y zona sin conversión de fecha calendario (2.8785ms)
+✔ Grupos con fechas distintas y progreso sin contar canceladas como completadas (27.0477ms)
+✔ Timer 40 + 35 minutos, pausa no cuenta, STOP no COMPLETE (14.9428ms)
+✔ Iniciar otra pausa anterior desde dominio; IN_PROGRESS es estado efectivo (9.1002ms)
+✔ Completar cierra sesión e intervalos; no iniciar compromisos o terminales (9.2211ms)
+✔ Reapertura conserva entidades, outbox y contador basado en timestamps (7.0859ms)
+✔ Dos conexiones/pestañas serializan START y conservan una sola sesión local activa (9.9801ms)
+✔ Reloj retrocede: PAUSE aborta sin perder intervalo ni outbox (6.049ms)
+✔ Cambio de tipo con sesión abierta se rechaza; borrar cierra sesión (8.0729ms)
+✔ Conflictos de intervalos inter-dispositivo: detectar, no sumar total definitivo (0.7406ms)
+✔ UI manual → servicio → IndexedDB/outbox; filtros y contadores actualizados (786.9438ms)
+✔ UI edición y completar: conservar servicio/versiones e historial buscable (1397.9087ms)
+✔ Calendario con confirmar/cancelar, hora 24h y validar hora sin fecha (854.8833ms)
+✔ Navegación root → categoría → actividad → hoja; Back deshace cada nivel y refresh conserva ruta (657.1319ms)
+✔ Timer UI usa núcleo: pausar anterior, detener separado de completar (1186.3483ms)
+✔ UI grupo expandible conserva progreso y orden; demo no se carga en personal (322.4564ms)
+✔ Captura escrita mock → claras guardadas, hora por aclarar y resolución sin duplicados (530.0576ms)
+✔ Voz simulada muestra texto, sin pedir permisos de micrófono (288.5533ms)
+✔ Proyecciones mantienen contadores/orden y periodo de historial local (9.1429ms)
+✔ Fallo al escribir outbox revierte modificación y auditoría (78.1752ms)
+✔ Actualizar IndexedDB v1 a v2 conserva registros existentes (8.5582ms)
+✔ Sync mock rechaza lote completo si una operación tiene base incompatible (9.4143ms)
+✔ Capture rechaza inputId y contexto incoherente de proveedores (11.2529ms)
+✔ Push/Pull mock: replicar creación, edición y tombstone; ack outbox (146.2249ms)
+✔ Idempotencia tras perder respuesta: reintentar sin duplicar feed (11.6491ms)
+✔ Dos ediciones offline: conflicto, mantener datos locales y outbox (21.4314ms)
+✔ Sesiones de dispositivos offline: preservar intervalos, marcar conflicto y total null (36.8023ms)
+✔ Error de red no reconoce outbox; respuesta de pull inválida no avanza cursor (8.4131ms)
+✔ Usuarios aislados: feed y repositorios locales no exponen pendientes ajenos (6.8562ms)
+ℹ tests 54
+ℹ suites 0
+ℹ pass 54
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8543.1967

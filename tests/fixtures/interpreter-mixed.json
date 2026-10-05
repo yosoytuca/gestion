@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.1", "inputId": "ccfe25c7-9fad-46cb-afb6-1840b59a4df7",
+  "operations": [
+    {"opId": "quote-1", "action": "CREATE", "evidence": "Hoy cotización de pintura",
+      "fields": {"title": "Cotización de pintura", "category": "WORK", "type": "TASK", "dueDate": "2026-10-03",
+        "dueTime": null, "reservedDurationMinutes": null, "groupRef": null}},
+    {"opId": "doctor-1", "action": "CREATE", "evidence": "Mañana médico a las cuatro",
+      "fields": {"title": "Cita médica", "category": "HEALTH", "type": "COMMITMENT", "dueDate": "2026-10-04",
+        "dueTime": null, "reservedDurationMinutes": null, "groupRef": null}}
+  ],
+  "clarifications": [{"id": "doctor-time", "reason": "AMBIGUOUS_TIME", "question": "¿04:00 o 16:00?",
+    "expression": "a las cuatro", "affectedOpIds": ["doctor-1"], "candidateIds": [], "options": ["04:00", "16:00"], "dateRange": null}]
+}

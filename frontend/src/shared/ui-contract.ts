@@ -21,6 +21,10 @@ export interface UiPort {
   beginVoice?(context:CaptureContext):Promise<void>;
   finishVoice?():Promise<TranscriptionResult>;
   cancelVoice?():void;
+  captureDraft?(voice:boolean):{text:string;context?:CaptureContext};
+  saveCaptureDraft?(voice:boolean,draft:{text:string;context?:CaptureContext}):void;
+  manualCapture?(text:string,context:CaptureContext):Promise<BatchRecord>;
+  editProposal?(batch:BatchRecord,opId:string,fields:Extract<import('../../../datos/contracts/interpreter/public').InterpreterOperation,{action:'CREATE'}>['fields']):Promise<BatchRecord>;
   apply(batch: BatchRecord): Promise<BatchRecord>;
   resolveTime(batch: BatchRecord, clarificationId: string, time: string): Promise<BatchRecord>;
   useDemo(reset?: boolean): Promise<void>;
